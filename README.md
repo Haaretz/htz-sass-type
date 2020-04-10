@@ -5,17 +5,17 @@
 ## Installation
 
 ```sh
-yarn add --dev @haaretz/css-type
+yarn add --dev @haaretz/sass-type
 ```
 or with npm:
 ```sh
-yarn install --save-dev @haaretz/css-type
+yarn install --save-dev @haaretz/sass-type
 ```
 
 ## Usage
 
 ```scss
-@import '~@haaretz/css-type'
+@import '~@haaretz/sass-type'
 ```
 
 ### Configuration
