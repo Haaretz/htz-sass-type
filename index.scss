@@ -1,0 +1,169 @@
+@if (not (
+  function-exists($name: use-var) and
+  mixin-exists($name: create-var)
+)) {
+  @error '"@haaretz/sass-type" depends on "@haaretz/sass-selectors". Please import it before using the "@include type" mixin';
+}
+
+/// A map enabling or disabling the generation of
+/// typographic scale custom properties on a pre-step basis
+/// @type {map}
+$htz-typescale-steps: (
+  -4: false,
+  -3: false,
+  -2: false,
+  -1: false,
+  0: false,
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false,
+  6: false,
+  7: false,
+  8: false,
+  9: false,
+  10: false,
+  11: false,
+  12: false,
+  13: false,
+  14: false,
+) !default;
+
+// /////////////////////////////////////////////////////////////////////
+//                              Helpers                               //
+// /////////////////////////////////////////////////////////////////////
+
+/// @private
+@mixin _is-on($size, $is-line-height) {
+  @if map-get($htz-typescale-steps, $sieze) {
+    @content;
+  }
+}
+
+
+////////////////////////////////////////////////////////////////////////
+//                               Mixins                               //
+////////////////////////////////////////////////////////////////////////
+
+/// Output font-size and line-height definitions for
+/// a defined step in the typographic scale.
+/// @param {number} $step
+///   The step in the typographic scale to be used
+/// @param {number} [$line]
+///   Overrides the default line-height for the step
+///   with a number of vertical rhythm units.
+@mixin type($step, $lines: false) {
+  @if (not map-get($htz-type, $step)) {
+    @error 'You are trying to use the `#{$step}` step in the typographic scale, but it is not enabled in `$htz-typescale-steps`'
+  }
+
+  font-size: use-var(fz-#{$step});
+  @if ($lines) {
+    line-height: #{$lines}rem;
+  }
+  @else {
+    line-height: use-var(lh-#{$step});
+  }
+}
+
+/// Generate the custom props used by the `type` mixin,
+/// based on the configuration of `$htz-typescale-steps`.
+/// **Must be used _after_ `$htz-typescale-steps` was defined.**
+/// @example
+/// ```scss
+/// @include generate-typography-custum-props();
+/// // -> :root { /* custom property declerations */ }
+/// ```
+@mixin generate-typography-custom-props() {
+  $rem: 6;
+
+  :root {
+    // typography
+    @include _is-on(-4) { @include create-var(fz--4, #{9/$rem}rem); }
+    @include _is-on(-3) { @include create-var(fz--3, #{11/$rem}rem); }
+    @include _is-on(-2) { @include create-var(fz--2, #{12/$rem}rem); }
+    @include _is-on(-1) { @include create-var(fz--1, #{14/$rem}rem); }
+    @include _is-on(0) { @include create-var(fz-0, #{16/$rem}rem); }
+    @include _is-on(1) { @include create-var(fz-1, #{18/$rem}rem); }
+    @include _is-on(2) { @include create-var(fz-2, #{21/$rem}rem); }
+    @include _is-on(3) { @include create-var(fz-3, #{24/$rem}rem); }
+    @include _is-on(4) { @include create-var(fz-4, #{28/$rem}rem); }
+    @include _is-on(5) { @include create-var(fz-5, #{32/$rem}rem); }
+    @include _is-on(6) { @include create-var(fz-6, #{37/$rem}rem); }
+    @include _is-on(7) { @include create-var(fz-7, #{42/$rem}rem); }
+    @include _is-on(8) { @include create-var(fz-8, #{49/$rem}rem); }
+    @include _is-on(9) { @include create-var(fz-9, #{56/$rem}rem); }
+    @include _is-on(10) { @include create-var(fz-10, #{64/$rem}rem); }
+    @include _is-on(11) { @include create-var(fz-11, #{74/$rem}rem); }
+    @include _is-on(12) { @include create-var(fz-12, #{84/$rem}rem); }
+    @include _is-on(13) { @include create-var(fz-13, #{97/$rem}rem); }
+    @include _is-on(14) { @include create-var(fz-14, #{111/$rem}rem); }
+
+    // line-height
+    @include _is-on(-4, true) { @include create-var(lh--4, 3rem); }
+    @include _is-on(-3, true) { @include create-var(lh--3, 3rem); }
+    @include _is-on(-2, true) { @include create-var(lh--2, 3rem); }
+    @include _is-on(-1, true) { @include create-var(lh--1, 3rem); }
+    @include _is-on(0, true) { @include create-var(lh-0, 4rem); }
+    @include _is-on(1, true) { @include create-var(lh-1, 4rem); }
+    @include _is-on(2, true) { @include create-var(lh-2, 5rem); }
+    @include _is-on(3, true) { @include create-var(lh-3, 5rem); }
+    @include _is-on(4, true) { @include create-var(lh-4, 6rem); }
+    @include _is-on(5, true) { @include create-var(lh-5, 6rem); }
+    @include _is-on(6, true) { @include create-var(lh-6, 7rem); }
+    @include _is-on(7, true) { @include create-var(lh-7, 8rem); }
+    @include _is-on(8, true) { @include create-var(lh-8, 9rem); }
+    @include _is-on(9, true) { @include create-var(lh-9, 10rem); }
+    @include _is-on(10, true) { @include create-var(lh-10, 11rem); }
+    @include _is-on(11, true) { @include create-var(lh-11, 13rem); }
+    @include _is-on(12, true) { @include create-var(lh-12, 15rem); }
+    @include _is-on(13, true) { @include create-var(lh-13, 17rem); }
+    @include _is-on(14, true) { @include create-var(lh-14, 19rem); }
+
+    @include mq($from: xl) {
+      $rem: 7;
+
+      @include _is-on(-4) { @include create-var(fz--4, #{10/$rem}rem); }
+      @include _is-on(-3) { @include create-var(fz--3, #{12/$rem}rem); }
+      @include _is-on(-2) { @include create-var(fz--2, #{14/$rem}rem); }
+      @include _is-on(-1) { @include create-var(fz--1, #{16/$rem}rem); }
+      @include _is-on(0) { @include create-var(fz-0, #{18/$rem}rem); }
+      @include _is-on(1) { @include create-var(fz-1, #{21/$rem}rem); }
+      @include _is-on(2) { @include create-var(fz-2, #{24/$rem}rem); }
+      @include _is-on(3) { @include create-var(fz-3, #{27/$rem}rem); }
+      @include _is-on(4) { @include create-var(fz-4, #{31/$rem}rem); }
+      @include _is-on(5) { @include create-var(fz-5, #{36/$rem}rem); }
+      @include _is-on(6) { @include create-var(fz-6, #{41/$rem}rem); }
+      @include _is-on(7) { @include create-var(fz-7, #{48/$rem}rem); }
+      @include _is-on(8) { @include create-var(fz-8, #{55/$rem}rem); }
+      @include _is-on(9) { @include create-var(fz-9, #{63/$rem}rem); }
+      @include _is-on(10) { @include create-var(fz-10, #{72/$rem}rem); }
+      @include _is-on(11) { @include create-var(fz-11, #{83/$rem}rem); }
+      @include _is-on(12) { @include create-var(fz-12, #{95/$rem}rem); }
+      @include _is-on(13) { @include create-var(fz-13, #{109/$rem}rem); }
+      @include _is-on(14) { @include create-var(fz-14, #{125/$rem}rem); }
+
+      // line height
+      @include _is-on(-4, true) { @include create-var(lh--4, 2rem); }
+      @include _is-on(-3, true) { @include create-var(lh--3, 3rem); }
+      @include _is-on(-2, true) { @include create-var(lh--2, 3rem); }
+      @include _is-on(-1, true) { @include create-var(lh--1, 3rem); }
+      @include _is-on(0, true) { @include create-var(lh-0, 4rem); }
+      @include _is-on(1, true) { @include create-var(lh-1, 4rem); }
+      @include _is-on(2, true) { @include create-var(lh-2, 5rem); }
+      @include _is-on(3, true) { @include create-var(lh-3, 5rem); }
+      @include _is-on(4, true) { @include create-var(lh-4, 5rem); }
+      @include _is-on(5, true) { @include create-var(lh-5, 6rem); }
+      @include _is-on(6, true) { @include create-var(lh-6, 7rem); }
+      @include _is-on(7, true) { @include create-var(lh-7, 8rem); }
+      @include _is-on(8, true) { @include create-var(lh-8, 9rem); }
+      @include _is-on(9, true) { @include create-var(lh-9, 10rem); }
+      @include _is-on(10, true) { @include create-var(lh-10, 11rem); }
+      @include _is-on(11, true) { @include create-var(lh-11, 13rem); }
+      @include _is-on(12, true) { @include create-var(lh-12, 14rem); }
+      @include _is-on(13, true) { @include create-var(lh-13, 16rem); }
+      @include _is-on(14, true) { @include create-var(lh-14, 19rem); }
+    }
+  }
+}

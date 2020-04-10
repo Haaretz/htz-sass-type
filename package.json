@@ -1,0 +1,21 @@
+{
+  "name": "@haaretz/sass-type",
+  "version": "1.0.0",
+  "description": "Typographic scale with css custom properties",
+  "main": "index.scss",
+  "author": "TxHawks",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haaretz/htz-sass-type.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@haaretz/sass-selectors": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@haaretz/sass-selectors": "^1.0.0"
+  }
+}
