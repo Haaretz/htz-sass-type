@@ -59,9 +59,17 @@ Generate the custom props used by the `type` mixin, based on the configuration
 of `$htz-typescale-steps`. **Must be used _after_ `$htz-typescale-steps` was
 defined.**  
 **Type:** `mixin`  
-**Example:**
+**Params:**  
+  `$selector` (`string` or `false`): Defaults to `false`. The selector inside
+  of which custom properties will be generated. `false`, the default, will 
+  cause custom styles to be scoped inside the selectors under which the 
+  mixin is included.
+**Examples:**
 ```scss
-@include generate-typography-custum-props();
+.foo { @include generate-typography-custum-props(); }
+// -> .foo { /* custom property declerations */ }
+
+@include generate-typography-custum-props(":root");
 // -> :root { /* custom property declerations */ }
 ```
 

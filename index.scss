@@ -41,6 +41,12 @@ $htz-typescale-steps: (
   }
 }
 
+/// @private
+@mixin _content-inside-optional-selector($selector: false) {
+  @if ($selector) { #{$selector} { @content; } }
+  @else { @content; }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 //                               Mixins                               //
@@ -70,16 +76,26 @@ $htz-typescale-steps: (
 /// Generate the custom props used by the `type` mixin,
 /// based on the configuration of `$htz-typescale-steps`.
 /// **Must be used _after_ `$htz-typescale-steps` was defined.**
+/// ---
+/// @param {string|false} [$selector = false]
+///   The selector inside of which custom properties will be generated.
+///   `false`, the default, will cause custom styles to be scoped
+///   inside the selectors under which the mixin is included.
+/// ---
 /// @example
 /// ```scss
-/// @include generate-typography-custum-props();
+/// .foo { @include generate-typography-custum-props(); }
+/// // -> .foo { /* custom property declerations */ }
+/// @example
+/// ```scss
+/// @include generate-typography-custum-props(":root");
 /// // -> :root { /* custom property declerations */ }
 /// ```
-@mixin generate-typography-custom-props() {
+@mixin generate-typography-custom-props($selector: false) {
   $rem: 6;
 
-  :root {
-    // typography
+  @include _content-inside-optional-selector($selector) {
+    // font-size
     @include _is-on(-4) { @include create-var(fz--4, #{9/$rem}rem); }
     @include _is-on(-3) { @include create-var(fz--3, #{11/$rem}rem); }
     @include _is-on(-2) { @include create-var(fz--2, #{12/$rem}rem); }
@@ -124,6 +140,7 @@ $htz-typescale-steps: (
     @include mq($from: xl) {
       $rem: 7;
 
+      // font-size
       @include _is-on(-4) { @include create-var(fz--4, #{10/$rem}rem); }
       @include _is-on(-3) { @include create-var(fz--3, #{12/$rem}rem); }
       @include _is-on(-2) { @include create-var(fz--2, #{14/$rem}rem); }
