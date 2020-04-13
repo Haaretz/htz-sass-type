@@ -62,7 +62,7 @@ $__htz-used-typescale-steps: (
 ///   Overrides the default line-height for the step
 ///   with a number of vertical rhythm units.
 @mixin type($step, $lines: false) {
-  @if (not map-get($htz-type, $step)) {
+  @if (not map-get($htz-typescale-steps, $step)) {
     @error 'You are trying to use the `#{$step}` step in the typographic scale, but it is not enabled in `$htz-typescale-steps`'
   }
 
